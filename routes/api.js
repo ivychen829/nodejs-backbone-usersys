@@ -30,9 +30,36 @@ exports.readByAge = function(req, res){
 	var model = req.app.db.model;
 	var age = req.params.age;
 
-	var vcard = model.find({ Age: age }, function(err, vcard) {
+	//var vcard = model.find({ Age: age }, function(err, vcard) {
+	//	res.send({
+	//		users: vcard
+	//	});
+	//	res.end();
+	//});
+
+	model.aggregate([
+	  { $match: { Age: parseInt(age) } }
+	])
+	.exec(function(err, users) {
 		res.send({
-			users: vcard
+			users: users
+		});
+		res.end();
+	});
+};
+
+exports.readByAgeRange = function(req, res){
+	var model = req.app.db.model;
+	var from = parseInt(req.params.from);
+	var to = parseInt(req.params.to);
+
+	model.aggregate([
+	  { $match: { Age: {$gte: from} } },
+	  { $match: { Age: {$lte: to} } }
+	])
+	.exec(function(err, users) {
+		res.send({
+			users: users
 		});
 		res.end();
 	});

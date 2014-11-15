@@ -5,10 +5,11 @@ block content
   div#userList
 
   script(type='text/template', id='tmpl-user-list')
+    button.btn.btn-primary#btn-filter 40-49
     h3 User List
     ul
       <% _.each(users, function(user) { %>
-      li <%= user.Name %>
+      li <%= user.Name %> (Age: <%= user.Age %>)
       <% }); %>
 
   script(src='jquery/dist/jquery.min.js', type='text/javascript')
