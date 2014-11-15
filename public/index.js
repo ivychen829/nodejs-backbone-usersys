@@ -36,8 +36,11 @@ app.ListView = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template( this.model.attributes ));
   },
-  click: function() {
-    this.model.filter = '/40/49';
+  click: function(e) {
+    var me = $(e.target);
+    var filter = me.data('filter');
+
+    this.model.filter = filter;
     this.model.fetch();
   }
 });
