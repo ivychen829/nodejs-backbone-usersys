@@ -29,10 +29,19 @@ var vcardSchema = mongoose.Schema({
     Email: String,
     Address: String,
     Age: Number
-})
+});
+
+var postSchema = new mongoose.Schema({
+    uid: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    title: String,
+    content: String
+});
 
 app.db = {
-	model: mongoose.model('user', vcardSchema)
+	model: {
+		User: mongoose.model('user', vcardSchema),
+		Post: mongoose.model('post', postSchema)
+	}
 };
 
 // all environments
@@ -66,6 +75,8 @@ app.get('/1/user/age/:from/:to', api.readByAgeRange);
 
 // Profile
 app.post('/1/user/:nickname/:type', api.upload);
+
+app.post('/1/post', api.createPost);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

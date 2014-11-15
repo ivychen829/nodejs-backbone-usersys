@@ -1,7 +1,7 @@
 var vcard;
 
 exports.create = function(req, res){
-	var model = req.app.db.model;
+	var model = req.app.db.model.User;
 
 	var person = {
 		nickname: req.query.nickname,
@@ -16,7 +16,7 @@ exports.create = function(req, res){
 };
 
 exports.read = function(req, res){
-	var model = req.app.db.model;
+	var model = req.app.db.model.User;
 
 	var vcard = model.find({}, function(err, vcard) {
 		res.send({
@@ -27,7 +27,7 @@ exports.read = function(req, res){
 };
 
 exports.readByAge = function(req, res){
-	var model = req.app.db.model;
+	var model = req.app.db.model.User;
 	var age = req.params.age;
 
 	//var vcard = model.find({ Age: age }, function(err, vcard) {
@@ -49,7 +49,7 @@ exports.readByAge = function(req, res){
 };
 
 exports.readByAgeRange = function(req, res){
-	var model = req.app.db.model;
+	var model = req.app.db.model.User;
 	var from = parseInt(req.params.from);
 	var to = parseInt(req.params.to);
 
@@ -82,6 +82,24 @@ exports.update = function(req, res){
 
 exports.delete = function(req, res){
 	res.end();
+};
+
+exports.createPost = function(req, res){
+  var model = req.app.db.model.Post;
+  var uid = '545dc0b2a7678639e78366f1';
+  var title = req.query.title;
+  var content = req.query.content;
+
+  var post = {
+    uid: uid,
+    title: title,
+    content: content
+  };
+
+  var postDocument = new model(post);
+  postDocument.save();
+
+  res.send({status: 'OK'});
 };
 
 exports.upload = function(req, res) {
