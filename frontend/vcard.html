@@ -10,20 +10,20 @@
   <script id='vcardTemplate' type='text/x-jquery-tmpl'>
       <div class="col-xs-12 col-md-6">
         <div class="alert alert-danger">
-          <h2>${name}</h2>
-          <img class='img-circle' src='uploads/${nickname}.jpg' width='96' height='96' data-toggle='photo' data-nickname="${nickname}" />
-          <span class="label label-warning">${tel}</span>
+          <h2>${Name}</h2>
+          <img class='img-circle' src='uploads/${Email}.jpg' width='96' height='96' data-toggle='photo' data-nickname="${Name}" />
+          <span class="label label-warning">${Address}</span>
           <div>
             <audio controls>
-              <source src="uploads/${nickname}.mp3" type="audio/mpeg">
+              <source src="uploads/${Name}.mp3" type="audio/mpeg">
             </audio>
           </div>
-          <div class="hide-admin" data-admin='${nickname}'>
+          <div class="hide-admin" data-admin='${Name}'>
             <div class="row">
-              <p><input type='file' class="btn btn-large btn-info" name='filename' id="photo-${nickname}">
-              <p><button class="btn btn-large btn-info" data-toggle='upload-photo' data-nickname="${nickname}">Upload Photo</button></p>
-              <p><input type='file' class="btn btn-large btn-success" name='filename' id="voice-${nickname}">
-              <p><button class="btn btn-large btn-success" data-toggle='upload-voice' data-nickname="${nickname}">Upload Voice</button></p>
+              <p><input type='file' class="btn btn-large btn-info" name='filename' id="photo-${Email}">
+              <p><button class="btn btn-large btn-info" data-toggle='upload-photo' data-nickname="${Email}">Upload Photo</button></p>
+              <p><input type='file' class="btn btn-large btn-success" name='filename' id="voice-${Name}">
+              <p><button class="btn btn-large btn-success" data-toggle='upload-voice' data-nickname="${Name}">Upload Voice</button></p>
             </div>
           </div>       
         </div>

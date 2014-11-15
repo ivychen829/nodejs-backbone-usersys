@@ -19,7 +19,21 @@ exports.read = function(req, res){
 	var model = req.app.db.model;
 
 	var vcard = model.find({}, function(err, vcard) {
-		res.send(vcard);
+		res.send({
+			users: vcard
+		});
+		res.end();
+	});
+};
+
+exports.readByAge = function(req, res){
+	var model = req.app.db.model;
+	var age = req.params.age;
+
+	var vcard = model.find({ Age: age }, function(err, vcard) {
+		res.send({
+			users: vcard
+		});
 		res.end();
 	});
 };
