@@ -49,6 +49,23 @@ exports.readOneByUserId = function(req, res){
 	});
 };
 
+exports.updateOneByUserId = function(req, res){
+	var model = req.app.db.model.User;
+	var id = req.params.id;
+	var user = req.body.user;
+
+	model.update({_id: id}, { 
+		Name: user.Name,
+		Email: user.Email,
+		Address: user.Address
+	}, function(err, numAffected) {
+		res.send({
+			numAffected: numAffected
+		});
+		res.end();
+	});
+};
+
 exports.readByAge = function(req, res){
 	var model = req.app.db.model.User;
 	var age = req.params.age;

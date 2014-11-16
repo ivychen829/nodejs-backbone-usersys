@@ -19,12 +19,12 @@ block content
         button.btn.btn-primary#btn-filter(data-filter='age-60') 60-69
     ul
       <% _.each(users, function(user) { %>
-      li
-        a(href='#', data-user-id!='<%= user._id %>', data-tag='user', data-age!='<%= user.Age %>') <%= user.Name %> (Age: <%= user.Age %>)
+      li(data-tag='user', data-age!='<%= user.Age %>')
+        a(href='#', data-user-id!='<%= user._id %>') <%= user.Name %> (Age: <%= user.Age %>)
       <% }); %>
 
   script(type='text/template', id='tmpl-user-info')
-    div
+    div.well.non-editable
       .row
         h2 <%= user.Name %>
         p Phone: <%= user.Phone %>
@@ -32,6 +32,27 @@ block content
         p Address: <%= user.Address %>
         p Age: <%= user.Age %>
         p ID: <%= user._id %>
+        button.btn.btn-primary.pull-left.btn-edit Edit
+    div.well.editable.hide(style='margin-top: 50px;')
+      .row
+        form
+          div.alerts
+          div.control-group(class!='<%= errfor.name ? "error" : "" %>')
+            label.control-label Name:
+            div.controls
+              input.form-control(type='text', name='name', value!='<%= user.Name %>')
+          div.control-group(class!='<%= errfor.email ? "error" : "" %>')
+            label.control-label Email:
+            div.controls
+              input.form-control(type='text', name='email', value!='<%= user.Email %>')
+          div.control-group(class!='<%= errfor.address ? "error" : "" %>')
+            label.control-label Address:
+            div.controls
+              input.form-control(type='text', name='address', value!='<%= user.Address %>')
+          input(type='hidden', name='id', value!='<%= user._id %>')
+          br
+          div
+            button.btn.btn-large.btn-info.btn-save(type='button') Save
 
   script(src='jquery/dist/jquery.min.js', type='text/javascript')
   script(src='underscore/underscore-min.js', type='text/javascript')

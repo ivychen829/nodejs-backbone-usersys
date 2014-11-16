@@ -75,6 +75,7 @@ app.get('/post', require('./routes/index').post);
 app.post('/1/user', api.create);
 app.get('/1/user', api.read);
 app.get('/1/user/:id', api.readOneByUserId);
+app.put('/1/user/:id', api.updateOneByUserId);
 app.put('/1/user/:nickname', api.update);
 app.delete('/1/user/:nickname', api.delete);
 

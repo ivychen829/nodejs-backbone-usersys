@@ -37,7 +37,7 @@ app.UserCollection = Backbone.Collection.extend({
 * VIEWS
 **/
 app.ListView = Backbone.View.extend({
-	el: '#userList',
+  el: '#userList',
   template: _.template( $('#tmpl-user-list').html() ),
   events: {
     'click #btn-filter': 'click',
@@ -106,6 +106,8 @@ app.UserView = Backbone.View.extend({
   el: '#userInfo',
   template: _.template( $('#tmpl-user-info').html() ),
   events: {
+    'click .btn-edit': 'edit',
+    'click .btn-save': 'save'
   },
   initialize: function() {
     var self = this;
@@ -116,6 +118,20 @@ app.UserView = Backbone.View.extend({
   },
   render: function() {
     this.$el.html(this.template( this.model.attributes ));
+  },
+  edit: function() {
+    this.$el.find('.non-editable').addClass('hide');
+    this.$el.find('.editable').removeClass('hide');
+  },
+  save: function() {
+    this.model.save({
+      id: this.$el.find('[name=id]').val(),
+      user: {
+        Name: this.$el.find('[name=name]').val(),
+        Email: this.$el.find('[name=email]').val(),
+        Address: this.$el.find('[name=address]').val()
+      }
+    });
   }
 });
 
