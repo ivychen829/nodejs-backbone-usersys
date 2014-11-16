@@ -20,7 +20,7 @@ block content
     ul
       <% _.each(users, function(user) { %>
       li(data-tag='user', data-age!='<%= user.Age %>')
-        a(href='#', data-user-id!='<%= user._id %>') <%= user.Name %> (Age: <%= user.Age %>)
+        a(href!='#<%= user._id %>', data-user-id!='<%= user._id %>') <%= user.Name %> (Age: <%= user.Age %>)
       <% }); %>
 
   script(type='text/template', id='tmpl-user-info')
