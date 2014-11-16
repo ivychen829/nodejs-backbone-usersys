@@ -17,6 +17,18 @@ app.Users = Backbone.Model.extend({
   }
 });
 
+app.UserInfo = Backbone.Model.extend({
+  url: function() {
+    return '/1/user/' + this.attributes.id;
+  },
+  id: '',
+  defaults: {
+    errors: [],
+    errfor: {},
+    user: {}
+  }
+});
+
 /**
 * VIEWS
 **/
@@ -24,7 +36,8 @@ app.ListView = Backbone.View.extend({
 	el: '#userList',
   template: _.template( $('#tmpl-user-list').html() ),
   events: {
-    'click #btn-filter': 'click'
+    'click #btn-filter': 'click',
+    'click [data-tag=user]': 'listUser'
   },
   initialize: function() {
     var self = this;
@@ -35,7 +48,7 @@ app.ListView = Backbone.View.extend({
     this.model.fetch({
       success: function() {
         var users = self.model.get('users');
-        
+
         users.sort(function (a, b) {
           if (a.Age > b.Age) return 1;
           else if (a.Age < b.Age) return -1;
@@ -65,6 +78,28 @@ app.ListView = Backbone.View.extend({
     this.$el.find('.' + filter).each(function () {
       $(this).removeClass('hide');
     });
+  },
+  listUser: function(e) {
+    var id = $(e.target).data('user-id');
+    app.userView.model.set('id', id);
+    app.userView.model.fetch();
+  }
+});
+
+app.UserView = Backbone.View.extend({
+  el: '#userInfo',
+  template: _.template( $('#tmpl-user-info').html() ),
+  events: {
+  },
+  initialize: function() {
+    var self = this;
+
+    this.model = new app.UserInfo();
+    this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model, 'change', this.render);
+  },
+  render: function() {
+    this.$el.html(this.template( this.model.attributes ));
   }
 });
 
@@ -73,4 +108,5 @@ app.ListView = Backbone.View.extend({
 **/
 $(document).ready(function() {
   app.listView = new app.ListView();
+  app.userView = new app.UserView();
 });

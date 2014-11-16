@@ -19,8 +19,31 @@ exports.read = function(req, res){
 	var model = req.app.db.model.User;
 
 	var vcard = model.find({}, function(err, vcard) {
+		var users = [];
+
+		vcard.forEach(function (user) {
+			users.push({
+				_id: user._id,
+				Name: user.Name,
+				Age: user.Age
+			});
+		});
+
 		res.send({
-			users: vcard
+			users: users
+		});
+
+		res.end();
+	});
+};
+
+exports.readOneByUserId = function(req, res){
+	var model = req.app.db.model.User;
+	var id = req.params.id;
+
+	var vcard = model.findOne({_id: id}, function(err, user) {
+		res.send({
+			user: user
 		});
 		res.end();
 	});

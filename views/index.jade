@@ -1,8 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  div#userList
+  .row
+    .col-md-6.col-sm-6
+      h2 User List
+      div#userList
+    .col-md-6.col-sm-6
+      h2 User Info
+      hr
+      div#userInfo
 
   script(type='text/template', id='tmpl-user-list')
     .btn-group
@@ -11,11 +17,20 @@ block content
         button.btn.btn-primary#btn-filter(data-filter='age-40') 40-49
         button.btn.btn-primary#btn-filter(data-filter='age-50') 50-59
         button.btn.btn-primary#btn-filter(data-filter='age-60') 60-69
-    h3 User List
     ul
       <% _.each(users, function(user) { %>
-      li(data-tag='user', data-age!='<%= user.Age %>') <%= user.Name %> (Age: <%= user.Age %>)
+      li
+        a(href='#', data-user-id!='<%= user._id %>', data-tag='user', data-age!='<%= user.Age %>') <%= user.Name %> (Age: <%= user.Age %>)
       <% }); %>
+
+  script(type='text/template', id='tmpl-user-info')
+    h2 <%= user.Name %>
+    div.well
+      p Phone: <%= user.Phone %>
+      p Email: <%= user.Email %>
+      p Address: <%= user.Address %>
+      p Age: <%= user.Age %>
+      p ID: <%= user._id %>
 
   script(src='jquery/dist/jquery.min.js', type='text/javascript')
   script(src='underscore/underscore-min.js', type='text/javascript')
