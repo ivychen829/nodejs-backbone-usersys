@@ -29,6 +29,10 @@ app.UserInfo = Backbone.Model.extend({
   }
 });
 
+app.UserCollection = Backbone.Collection.extend({
+  model: app.UserInfo
+});
+
 /**
 * VIEWS
 **/
@@ -43,6 +47,8 @@ app.ListView = Backbone.View.extend({
     var self = this;
 
     this.model = new app.Users();
+    this.collections = new app.UserCollection();
+
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model, 'change', this.render);
     this.model.fetch({
@@ -80,9 +86,19 @@ app.ListView = Backbone.View.extend({
     });
   },
   listUser: function(e) {
-    var id = $(e.target).data('user-id');
-    app.userView.model.set('id', id);
-    app.userView.model.fetch();
+    var id = $(e.target).data('user-id'); 
+    var model = app.listView.collections.get(id);
+
+    if (model) return app.userView.model.set('user', model.get('user'));
+
+    model = new app.UserInfo();
+    model.set('id', id);
+    model.fetch({
+      success: function() {
+        app.userView.model.set('user', model.get('user'));
+        app.listView.collections.push(model);
+      }
+    });
   }
 });
 
