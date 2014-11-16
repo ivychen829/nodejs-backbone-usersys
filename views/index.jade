@@ -6,15 +6,15 @@ block content
 
   script(type='text/template', id='tmpl-user-list')
     .btn-group
-        button.btn.btn-primary#btn-filter(data-filter='/20/29') 20-29
-        button.btn.btn-primary#btn-filter(data-filter='/30/39') 30-39
-        button.btn.btn-primary#btn-filter(data-filter='/40/49') 40-49
-        button.btn.btn-primary#btn-filter(data-filter='/50/59') 50-59
-        button.btn.btn-primary#btn-filter(data-filter='/60/69') 60-69
+        button.btn.btn-primary#btn-filter(data-filter='age-20') 20-29
+        button.btn.btn-primary#btn-filter(data-filter='age-30') 30-39
+        button.btn.btn-primary#btn-filter(data-filter='age-40') 40-49
+        button.btn.btn-primary#btn-filter(data-filter='age-50') 50-59
+        button.btn.btn-primary#btn-filter(data-filter='age-60') 60-69
     h3 User List
     ul
       <% _.each(users, function(user) { %>
-      li <%= user.Name %> (Age: <%= user.Age %>)
+      li(data-tag='user', data-age!='<%= user.Age %>') <%= user.Name %> (Age: <%= user.Age %>)
       <% }); %>
 
   script(src='jquery/dist/jquery.min.js', type='text/javascript')
