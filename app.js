@@ -15,7 +15,7 @@ var api = require('./routes/api');
 var app = express();
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://test:123456@ds029837.mongolab.com:29837/partjs');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -43,7 +43,7 @@ var mapAgeSchema = new mongoose.Schema({
 
 app.db = {
 	model: {
-		User: mongoose.model('user', vcardSchema),
+		User: mongoose.model('Member', vcardSchema),
 		Post: mongoose.model('post', postSchema),
     /* MapReduce */
     MapAge: mongoose.model('map_age', mapAgeSchema)
