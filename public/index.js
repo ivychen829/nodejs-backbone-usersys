@@ -102,23 +102,26 @@ app.ListView = Backbone.View.extend({
 });
 
 app.UserView = Backbone.View.extend({
-  el: '#userInfo',
   template: _.template( $('#tmpl-user-info').html() ),
   events: {
     'click .btn-edit': 'edit',
     'click .btn-save': 'save'
   },
-  initialize: function() {
-    var self = this;
-
+  initialize: function(id) {
+    this.$el = $('<div id=' + id + '></div>');
     this.model = new app.UserInfo();
+
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model, 'change', this.render);
+
+    this.model.set('id', id);
+    this.model.fetch();
   },
   render: function() {
     this.$el.html(this.template( this.model.attributes ));
+    return this;
   },
-  edit: function() {
+  edit: function(e) {
     this.$el.find('.non-editable').addClass('hide');
     this.$el.find('.editable').removeClass('hide');
   },
@@ -134,6 +137,23 @@ app.UserView = Backbone.View.extend({
   }
 });
 
+app.UserViewPanel = Backbone.View.extend({
+  el: '#userInfo',
+  views: [],
+  initialize: function() {
+  },
+  renderChild: function(id) {
+    var childView = this.views[id];
+
+    if (!childView) {
+      console.log('creating a new child view: ' + id);
+      this.views[id] = childView = new app.UserView(id);
+    }
+
+    this.$el.append( childView.render().$el );
+  }
+});
+
 /*
  * ROUTES
  */
@@ -143,18 +163,7 @@ app.UserRoutes = Backbone.Router.extend({
   },
 
   queryByUserId: function(id) {
-    var model = app.listView.collections.get(id);
-
-    if (model) return app.userView.model.set('user', model.get('user'));
-
-    model = new app.UserInfo();
-    model.set('id', id);
-    model.fetch({
-      success: function() {
-        app.userView.model.set('user', model.get('user'));
-        app.listView.collections.push(model);
-      }
-    });
+    app.userViewPanel.renderChild(id);
   }
 });
 
@@ -163,7 +172,7 @@ app.UserRoutes = Backbone.Router.extend({
 **/
 $(document).ready(function() {
   app.listView = new app.ListView();
-  app.userView = new app.UserView();
+  app.userViewPanel = new app.UserViewPanel();
 
   app.userRoutes = new app.UserRoutes();
   Backbone.history.start();
