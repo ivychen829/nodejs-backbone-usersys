@@ -8,7 +8,7 @@ var app = app || {};
 **/
 app.Users = Backbone.Model.extend({
   url: function() {
-    return '/1/user';
+    return 'http://localhost:3000/1/user';
   },
   defaults: {
     errors: [],

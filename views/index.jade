@@ -17,10 +17,15 @@ block content
         button.btn.btn-primary#btn-filter(data-filter='age-40') 40-49
         button.btn.btn-primary#btn-filter(data-filter='age-50') 50-59
         button.btn.btn-primary#btn-filter(data-filter='age-60') 60-69
-    ul
+    table.table
+      tr
+        td Name
+        td Age
       <% _.each(users, function(user) { %>
-      li(data-tag='user', data-age!='<%= user.Age %>')
-        a(href!='#<%= user._id %>', data-user-id!='<%= user._id %>') <%= user.Name %> (Age: <%= user.Age %>)
+      tr
+        td(data-tag='user', data-age!='<%= user.Age %>')
+          a(href!='#<%= user._id %>', data-user-id!='<%= user._id %>') <%= user.Name %>
+        td <%= user.Age %>
       <% }); %>
 
   script(type='text/template', id='tmpl-user-info')
