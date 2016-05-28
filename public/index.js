@@ -145,12 +145,16 @@ app.UserViewPanel = Backbone.View.extend({
   renderChild: function(id) {
     var childView = this.views[id];
 
+    // make all children hidden
+    this.$el.children().addClass('hide');
+
     if (!childView) {
-      console.log('creating a new child view: ' + id);
+      // create a new child view and mount to current element
       this.views[id] = childView = new app.UserView(id);
+      return this.$el.append( childView.render().$el );
     }
 
-    this.$el.append( childView.render().$el );
+    this.$el.find('#' + id).removeClass('hide');
   }
 });
 
