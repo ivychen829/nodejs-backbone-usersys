@@ -118,6 +118,7 @@ app.UserView = Backbone.View.extend({
     this.model.fetch();
   },
   deinitialize: function() {
+    console.log('deinitialized');
     this.$el = {};
     delete this.model;
   },
@@ -150,6 +151,11 @@ app.UserViewPanel = Backbone.View.extend({
     console.log('views: ', this.views);
 
     if (Object.keys(this.views).length > 3) {
+      // prepare to remove subviews
+      for (i= 0, count = Object.keys(this.views).length - 3; i < count; i++) {
+        this.views[i].view.deinitialize();
+      }
+
       this.views = this.views.slice(-3);
       console.log('invalidate views');
       console.log('views: ', this.views);
