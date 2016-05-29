@@ -9,6 +9,7 @@ block content
       h2 User Info
       hr
       div#userInfo
+      div#userPost
 
   script(type='text/template', id='tmpl-user-list')
     .btn-group
@@ -27,6 +28,12 @@ block content
           a(href!='#<%= user._id %>', data-user-id!='<%= user._id %>') <%= user.Name %>
         td <%= user.Age %>
       <% }); %>
+
+  script(type='text/template', id='tmpl-user-posts')
+    ul
+    <% _.each(posts, function(post) { %>
+    li <%= post.title %>
+    <% }); %>
 
   script(type='text/template', id='tmpl-user-info')
     div.well.non-editable
@@ -55,7 +62,7 @@ block content
             label.control-label Content:
             div.controls
               input.form-control(type='text', name='content', value='')     
-          input(type='hidden', name='id', value='<%= user._id %>')
+          input(type='hidden', name='id', value!='<%= user._id %>')
           button.btn.btn-primary.pull-left.btn-post-submit Submit Message                 
     div.well.editable.hide(style='margin-top: 50px;')
       .row

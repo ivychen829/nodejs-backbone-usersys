@@ -43,6 +43,19 @@ app.Post = Backbone.Model.extend({
   }
 });
 
+app.UserPost = Backbone.Model.extend({
+  url: function() {
+    return 'http://localhost:3000/1/post/' + this.attributes.uid;
+  },
+  defaults: {
+    errors: [],
+    errfor: {},
+    
+    uid: '',
+    posts: []
+  }
+});
+
 app.UserCollection = Backbone.Collection.extend({
   model: app.UserInfo
 });
@@ -115,6 +128,20 @@ app.ListView = Backbone.View.extend({
   }
 });
 
+app.UserPostView = Backbone.View.extend({
+  el: '#userPost',
+  template: _.template( $('#tmpl-user-posts').html() ),
+  initialize: function(id) {
+    this.model = new app.UserPost();
+
+    this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model, 'change', this.render);
+  },  
+  render: function() {
+    this.$el.html(this.template( this.model.attributes ));
+  }
+});
+
 app.UserView = Backbone.View.extend({
   template: _.template( $('#tmpl-user-info').html() ),
   events: {
@@ -180,6 +207,7 @@ app.UserViewPanel = Backbone.View.extend({
   el: '#userInfo',
   views: [],
   initialize: function() {
+    this.userPostView = new app.UserPostView();
   },
   invalidate: function() {
     console.log('views: ', this.views);
@@ -217,6 +245,9 @@ app.UserViewPanel = Backbone.View.extend({
       });
 
       this.$el.append( childView.render().$el );
+
+      this.userPostView.model.set('uid', id);
+      this.userPostView.model.fetch();
     } else {
       this.$el.find('#' + id).removeClass('hide');
     }

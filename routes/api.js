@@ -37,6 +37,20 @@ exports.read = function(req, res){
 	});
 };
 
+exports.readPostById = function(req, res){
+	var model = req.app.db.model.Post;
+
+	var vcard = model.find({
+		uid: req.params.id
+	}, function(err, posts) {
+		res.send({
+			posts: posts
+		});
+
+		res.end();
+	});
+};
+
 exports.readOneByUserId = function(req, res){
 	var model = req.app.db.model.User;
 	var id = req.params.id;

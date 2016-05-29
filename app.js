@@ -89,6 +89,8 @@ app.post('/1/user/:nickname/:type', api.upload);
 
 app.post('/1/post', api.createPost);
 app.get('/1/post', api.readPost);
+app.get('/1/post/:id', api.readPostById);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
