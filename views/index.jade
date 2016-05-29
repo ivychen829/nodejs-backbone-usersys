@@ -38,6 +38,21 @@ block content
         p Age: <%= user.Age %>
         p ID: <%= user._id %>
         button.btn.btn-primary.pull-left.btn-edit Edit
+
+      .row
+        hr
+        form
+          div.alerts
+          div.control-group(class!='<%= errfor.title ? "error" : "" %>')
+            label.control-label Title:
+            div.controls
+              input.form-control(type='text', name='title', value='')
+          div.control-group(class!='<%= errfor.content ? "error" : "" %>')
+            label.control-label Content:
+            div.controls
+              input.form-control(type='text', name='content', value='')     
+          input(type='hidden', name='id', value!='<%= user._id %>')
+          button.btn.btn-primary.pull-left.btn-post-submit Submit Message                 
     div.well.editable.hide(style='margin-top: 50px;')
       .row
         form

@@ -29,6 +29,20 @@ app.UserInfo = Backbone.Model.extend({
   }
 });
 
+app.Post = Backbone.Model.extend({
+  url: function() {
+    return 'http://localhost:3000/1/post';
+  },
+  defaults: {
+    errors: [],
+    errfor: {},
+    
+    uid: '',
+    title: '',
+    content: ''
+  }
+});
+
 app.UserCollection = Backbone.Collection.extend({
   model: app.UserInfo
 });
@@ -105,11 +119,13 @@ app.UserView = Backbone.View.extend({
   template: _.template( $('#tmpl-user-info').html() ),
   events: {
     'click .btn-edit': 'edit',
-    'click .btn-save': 'save'
+    'click .btn-save': 'save',
+    'click .btn-post-submit': 'savePost'
   },
   initialize: function(id) {
     this.$el = $('<div id=' + id + '></div>');
     this.model = new app.UserInfo();
+    this.modelPost = new app.Post();
 
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model, 'change', this.render);
@@ -139,7 +155,14 @@ app.UserView = Backbone.View.extend({
         Address: this.$el.find('[name=address]').val()
       }
     });
-  }
+  },
+  savePost: function() {
+    this.modelPost.save({
+      uid: this.$el.find('[name=id]').val(),
+      title: this.$el.find('[name=title]').val(),
+      content: this.$el.find('[name=content]').val()
+    });
+  }  
 });
 
 app.UserViewPanel = Backbone.View.extend({

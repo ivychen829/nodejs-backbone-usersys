@@ -126,9 +126,9 @@ exports.delete = function(req, res){
 
 exports.createPost = function(req, res){
   var model = req.app.db.model.Post;
-  var uid = '545dc0b2a7678639e78366f1';
-  var title = req.query.title;
-  var content = req.query.content;
+  var uid = req.body.uid;
+  var title = req.body.title;
+  var content = req.body.content;
 
   var post = {
     uid: uid,

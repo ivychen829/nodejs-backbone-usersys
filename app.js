@@ -32,7 +32,7 @@ var vcardSchema = mongoose.Schema({
 });
 
 var postSchema = new mongoose.Schema({
-    uid: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    uid: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     title: String,
     content: String
 });
