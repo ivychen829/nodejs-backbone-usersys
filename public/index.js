@@ -146,7 +146,8 @@ app.UserViewPanel = Backbone.View.extend({
   views: [],
   initialize: function() {
   },
-  invaidate: function() {
+  invalidate: function() {
+    console.log('views: ', this.views);
   },
   renderChild: function(id) {
     var childView = this.views[id];
@@ -161,7 +162,6 @@ app.UserViewPanel = Backbone.View.extend({
     }
 
     this.$el.find('#' + id).removeClass('hide');
-
     this.invalidate();
   }
 });
