@@ -129,6 +129,25 @@ exports.createPost = function(req, res){
   var uid = req.body.uid;
   var title = req.body.title;
   var content = req.body.content;
+  var outcome = {
+    errors: [],
+    errfor: {},
+    title: title,
+    content: content
+  };
+
+  if (!title) {
+	outcome.errfor.title = '請填寫 Title 欄位';
+	outcome.errors.push('Title 是必填欄位');
+  } 
+
+  if (!content) {
+	outcome.errfor.content = '請填寫 Content 欄位';
+	outcome.errors.push('Content 是必填欄位');
+  } 
+
+  if (outcome.errors.length > 0)
+  	return res.json(outcome);
 
   var post = {
     uid: uid,

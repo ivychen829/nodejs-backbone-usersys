@@ -130,11 +130,13 @@ app.UserView = Backbone.View.extend({
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model, 'change', this.render);
 
+    this.listenTo(this.modelPost, 'sync', this.renderPost);
+    this.listenTo(this.modelPost, 'change', this.renderPost);
+
     this.model.set('id', id);
     this.model.fetch();
   },
   deinitialize: function() {
-    console.log('deinitialized');
     this.$el = {};
     delete this.model;
   },
@@ -142,6 +144,14 @@ app.UserView = Backbone.View.extend({
     this.$el.html(this.template( this.model.attributes ));
     return this;
   },
+  renderPost: function() {
+    // 合併二個 model
+    var model = this.model.attributes;
+    _.extend(model, this.modelPost.attributes)
+
+    this.$el.html(this.template( model ));
+    return this;
+  },  
   edit: function(e) {
     this.$el.find('.non-editable').addClass('hide');
     this.$el.find('.editable').removeClass('hide');
@@ -156,7 +166,8 @@ app.UserView = Backbone.View.extend({
       }
     });
   },
-  savePost: function() {
+  savePost: function(e) {
+    e.preventDefault();
     this.modelPost.save({
       uid: this.$el.find('[name=id]').val(),
       title: this.$el.find('[name=title]').val(),
