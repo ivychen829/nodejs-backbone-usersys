@@ -148,21 +148,40 @@ app.UserViewPanel = Backbone.View.extend({
   },
   invalidate: function() {
     console.log('views: ', this.views);
+
+    if (Object.keys(this.views).length > 3) {
+      this.views = this.views.slice(-3);
+      console.log('invalidate views');
+      console.log('views: ', this.views);
+    }
   },
-  renderChild: function(id) {
-    var childView = this.views[id];
+  renderChild: function(id) { 
+    var childView = {};
+
+    for (i = 0; i < this.views.length; i++) {
+      if (this.views[i].id === id) {
+        childView = this.views[i];
+        break;
+      }
+    };   
 
     // make all children hidden
     this.$el.children().addClass('hide');
 
-    if (!childView) {
+    if (!Object.keys(childView).length) {
       // create a new child view and mount to current element
-      this.views[id] = childView = new app.UserView(id);
-      return this.$el.append( childView.render().$el );
+      childView = new app.UserView(id);
+      this.views.push({
+        id: id,
+        view: childView
+      });
+
+      this.$el.append( childView.render().$el );
+    } else {
+      this.$el.find('#' + id).removeClass('hide');
     }
 
-    this.$el.find('#' + id).removeClass('hide');
-    this.invalidate();
+    this.invalidate();    
   }
 });
 
