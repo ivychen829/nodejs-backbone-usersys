@@ -117,6 +117,10 @@ app.UserView = Backbone.View.extend({
     this.model.set('id', id);
     this.model.fetch();
   },
+  deinitialize: function() {
+    this.$el = {};
+    delete this.model;
+  },
   render: function() {
     this.$el.html(this.template( this.model.attributes ));
     return this;
@@ -142,6 +146,8 @@ app.UserViewPanel = Backbone.View.extend({
   views: [],
   initialize: function() {
   },
+  invaidate: function() {
+  },
   renderChild: function(id) {
     var childView = this.views[id];
 
@@ -155,6 +161,8 @@ app.UserViewPanel = Backbone.View.extend({
     }
 
     this.$el.find('#' + id).removeClass('hide');
+
+    this.invalidate();
   }
 });
 
